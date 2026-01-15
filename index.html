@@ -1,354 +1,499 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Papandayan Tour - Jasa Tour Guide Gunung Papandayan</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"> <!-- Untuk ikon -->
-    <link rel="icon" href="papandayan tour.png">
-    <style>
+<html class="dark" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link rel="icon" href="TrekOut.png">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1A365D", // Deep Navy Blue from logo background
+                        "accent": "#89CFF0", // Light Sky Blue for accents
+                        "background-dark": "#1A365D", // Matching logo navy
+                        "card-dark": "#1E3A8A", // Slightly lighter navy for cards
+                        "light-grey": "#E2E8F0", // Light grey for text/headings
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "elegant": ["Playfair Display", "serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.6rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        :root {
+            --primary-color: #1A365D;
+            --accent-color: #89CFF0;
+        }
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+            min-height: 100dvh;
         }
-        .navbar {
-            background-color: #2d5016; /* Hijau gelap untuk navbar */
+        .cart-active {
+            transform: translateY(0);
+            opacity: 1;
         }
-        .navbar-brand, .nav-link {
-            color: #fff !important;
+        .product-card.selected {
+            border-color: var(--accent-color);
+            background-color: rgba(137, 207, 240, 0.1);
+            box-shadow: 0 0 15px rgba(137, 207, 240, 0.2);
         }
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('kawah.jpg') no-repeat center center;
-            background-size: cover;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 600;
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
-        .hero p {
-            font-size: 1.2rem;
-        }
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            .hero p {
-                font-size: 1rem;
-            }
-        }
-        .services {
-            padding: 60px 0;
-            background-color: #e9f7ef; /* Hijau muda */
-        }
-        .service-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            overflow: hidden;
-            text-align: center;
-            padding: 20px;
-            margin-bottom: 30px;
-            height: 100%; /* Tinggi sama untuk semua kartu */
-            display: flex;
-            flex-direction: column;
-        }
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        .service-icon {
-            font-size: 3rem;
-            color: #2d5016;
-            margin-bottom: 15px;
-        }
-        .service-img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-        .service-card .card-body {
-            flex-grow: 1; /* Konten stretch untuk tinggi sama */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .about {
-            padding: 60px 0;
-            background: linear-gradient(135deg, #fff 0%, #e9f7ef 100%);
-        }
-        .about .quote {
-            font-style: italic;
-            color: #2d5016;
-            font-size: 1.2rem;
-            margin-top: 20px;
-        }
-        .reviews {
-            padding: 60px 0;
-            background-color: #f1f3f4;
-        }
-        .carousel-item {
-            padding: 20px;
-        }
-        .contact {
-            padding: 60px 0;
-            background-color: #fff;
-        }
-        .contact-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        .contact-card:hover {
-            transform: translateY(-5px);
-        }
-        .contact-card i {
-            font-size: 2rem;
-            color: #2d5016;
-            margin-bottom: 10px;
-        }
-        .contact-card a {
-            text-decoration: none;
-            color: #333;
-        }
-        .contact-card a:hover {
-            color: #ff6b35;
-        }
-        .btn-custom {
-            background-color: #ff6b35; /* Oranye untuk aksen */
-            color: white;
-            border: none;
-            border-radius: 25px;
-            padding: 10px 20px;
-        }
-        .btn-custom:hover {
-            background-color: #e55a2b;
-        }
-        footer {
-            background-color: #2d5016;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
+        .btn-glow {
+            box-shadow: 0 0 12px rgba(137, 207, 240, 0.4);
         }
     </style>
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="#">Papandayan Tour</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#home">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services">Layanan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">Tentang Kami</a></li>
-                    <li class="nav-item"><a class="nav-link" href="ulasan.html">Ulasan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Kontak</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+    .logo {
+        width: 24px;
+        height: 24px;
+    }
+  </style>
+  </head>
+<body class="bg-background-dark font-display text-white pb-32">
+<header class="sticky top-0 z-50 bg-background-dark/90 backdrop-blur-md border-b border-white/10">
+<div class="flex items-center p-4 justify-between max-w-7xl mx-auto">
+<div class="flex items-center gap-2">
+<div class="bg-accent/20 p-1.5 rounded-lg flex items-center justify-center text-accent border border-accent/30">
+<span class="logo"><img src="TrekOut.png" alt=""></span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight font-elegant italic">Trekout Papandayan</h2>
+</div>
+<div class="flex items-center gap-4">
+<p class="text-slate-300 text-sm font-bold cursor-pointer hover:text-accent transition-colors">Katalog</p>
+<button class="bg-accent text-primary text-xs font-black px-4 py-2 rounded-lg tracking-wide uppercase">Booking</button>
+</div>
+</div>
+</header>
+<main class="w-full overflow-x-hidden">
+<section class="relative px-4 py-12 @container">
+<div class="flex flex-col gap-8 max-w-7xl mx-auto">
+<div class="flex flex-col gap-6 items-center text-center">
+<div class="inline-flex items-center gap-2 bg-accent/10 text-accent px-3 py-1 rounded-full text-xs font-bold border border-accent/20">
+<span class="material-symbols-outlined !text-[16px]">verified_user</span>
+<span class="tracking-wide uppercase">Premium Outdoor Service</span>
+</div>
+<h1 class="text-white text-4xl font-black leading-tight tracking-tight font-elegant @[480px]:text-5xl">
+                        Sewa Alat Outdoor <span class="text-accent italic">Premium &amp; Berkualitas</span> untuk Petualangan Anda
+                    </h1>
+<h2 class="text-slate-300 text-base font-normal leading-relaxed max-w-[600px]">
+                        Siap mendaki Papandayan tanpa beban. Kami menyediakan tenda premium, trekking poles, and hydropacks berkualitas tinggi yang siap digunakan.
+                    </h2>
+<div class="flex flex-col w-full gap-3 @[480px]:flex-row @[480px]:justify-center">
+<a class="flex min-w-[200px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-6 bg-accent text-primary text-base font-black leading-normal tracking-wide shadow-lg shadow-accent/20 hover:scale-[1.02] transition-transform" href="#katalog">
+<span class="truncate">Sewa Sekarang</span>
+</a>
+<button class="flex min-w-[200px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-6 bg-white/10 text-white text-base font-bold leading-normal border border-white/20 hover:bg-white/20 transition-colors">
+<span class="truncate">Lihat Galeri</span>
+</button>
+</div>
+</div>
+<div class="relative mt-8 group">
+<div class="absolute -inset-1 bg-gradient-to-r from-accent/50 to-primary/50 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+<div class="relative w-full aspect-[4/3] bg-cover bg-center rounded-2xl border border-white/10 shadow-2xl" style='background-image: url(TrekOut.png);'>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent rounded-2xl"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="px-4 py-16 bg-white/5 @container border-y border-white/10">
+<div class="max-w-7xl mx-auto flex flex-col gap-12">
+<div class="flex flex-col gap-4 text-center items-center">
+<h2 class="text-white tracking-tight text-3xl font-bold leading-tight font-elegant @[480px]:text-4xl">
+                        Standar Layanan Eksklusif
+                    </h2>
+<p class="text-slate-300 text-base font-normal leading-normal max-w-[600px]">
+                        Kami memahami kebutuhan pendaki. Nikmati peralatan terbaik dengan layanan yang memudahkan setiap langkah Anda.
+                    </p>
+</div>
+<div class="grid grid-cols-1 @[480px]:grid-cols-2 gap-6">
+<div class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-card-dark p-6 hover:border-accent/50 transition-all">
+<div class="bg-accent/10 text-accent w-12 h-12 rounded-xl flex items-center justify-center border border-accent/20">
+<span class="material-symbols-outlined !text-[28px]">camping</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-white text-xl font-bold leading-tight">Koleksi Alat Lengkap</h3>
+<p class="text-slate-300 text-sm font-normal leading-relaxed">Tenda double layer, trekking poles ultra-light, hingga cooking sets premium tersedia.</p>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-card-dark p-6 hover:border-accent/50 transition-all">
+<div class="bg-accent/10 text-accent w-12 h-12 rounded-xl flex items-center justify-center border border-accent/20">
+<span class="material-symbols-outlined !text-[28px]">sanitizer</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-white text-xl font-bold leading-tight">Kebersihan Terjamin</h3>
+<p class="text-slate-300 text-sm font-normal leading-relaxed">Seluruh peralatan disanitasi secara menyeluruh setelah setiap penggunaan.</p>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-card-dark p-6 hover:border-accent/50 transition-all">
+<div class="bg-accent/10 text-accent w-12 h-12 rounded-xl flex items-center justify-center border border-accent/20">
+<span class="material-symbols-outlined !text-[28px]">calendar_month</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-white text-xl font-bold leading-tight">Booking Mudah</h3>
+<p class="text-slate-300 text-sm font-normal leading-relaxed">Reservasi online yang simpel dan cepat melalui katalog WhatsApp kami.</p>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-card-dark p-6 hover:border-accent/50 transition-all">
+<div class="bg-accent/10 text-accent w-12 h-12 rounded-xl flex items-center justify-center border border-accent/20">
+<span class="material-symbols-outlined !text-[28px]">payments</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-white text-xl font-bold leading-tight">Harga Kompetitif</h3>
+<p class="text-slate-300 text-sm font-normal leading-relaxed">Tarif harian terjangkau tanpa mengorbankan kualitas pengalaman outdoor Anda.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="px-4 py-20 @container bg-background-dark" id="katalog">
+<div class="max-w-7xl mx-auto flex flex-col gap-12">
+<div class="flex flex-col gap-4 text-center items-center">
+<div class="inline-flex items-center gap-2 bg-accent/10 text-accent px-3 py-1 rounded-full text-xs font-bold border border-accent/20">
+<span class="material-symbols-outlined !text-[16px]">shopping_basket</span>
+<span class="tracking-wide uppercase">Katalog Sewa Alat</span>
+</div>
+<h2 class="text-white tracking-tight text-3xl font-bold leading-tight font-elegant @[480px]:text-4xl">
+                        Pilih Perlengkapan Anda
+                    </h2>
+<p class="text-slate-300 text-base font-normal leading-normal max-w-[600px]">
+                        Klik pada alat yang ingin Anda sewa untuk ditambahkan ke dalam pesanan WhatsApp.
+                    </p>
+</div>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <h1>Selamat Datang di Papandayan Tour</h1>
-            <p>Jelajahi keindahan Gunung Papandayan bersama kami. Pengalaman mendaki yang aman dan tak terlupakan.</p>
-            <a href="#services" class="btn btn-custom btn-lg">Lihat Layanan Kami</a>
-        </div>
-    </section>
 
-    <!-- Services Section -->
-    <section id="services" class="services">
-        <div class="container">
-            <h2 class="text-center mb-5">Layanan Kami</h2>
-            <div class="row">
-                <div class="col-md-4 mb-4 d-flex">
-                    <div class="service-card">
-                        <i class="bi bi-car-front service-icon"></i>
-                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Tour Guide" class="service-img">
-                        <div class="card-body flex-grow-1">
-                            <h4>Tour Guide</h4>
-                            <p>Panduan ahli untuk mendaki Gunung Papandayan dengan rute aman dan informasi menarik.</p>
-                            <a href="tourguide.html" class="btn btn-custom mt-auto">Lihat Info Paket</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4 d-flex">
-                    <div class="service-card">
-                        <i class="bi bi-ticket-perforated service-icon"></i>
-                        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Tiket Masuk" class="service-img">
-                        <div class="card-body flex-grow-1">
-                            <h4>Tiket Masuk</h4>
-                            <p>Kami bantu urus tiket masuk ke area Gunung Papandayan dengan harga terbaik.</p>
-                            <a href="tiket.html" class="btn btn-custom mt-auto">Lihat Info Tiket</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4 d-flex">
-                    <div class="service-card">
-                        <i class="bi bi-house service-icon"></i>
-                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Sewa Penginapan" class="service-img">
-                        <div class="card-body flex-grow-1">
-                            <h4>Sewa Penginapan</h4>
-                            <p>Penginapan nyaman di sekitar gunung untuk istirahat sebelum atau setelah pendakian.</p>
-                            <a href="penginapan.html" class="btn btn-custom mt-auto">Lihat Info Paket</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4 d-flex">
-                    <div class="service-card">
-                        <i class="bi bi-car-front service-icon"></i>
-                        <img src="https://images.unsplash.com/photo-1449844908441-8829872d2607?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Sewa Transportasi" class="service-img">
-                        <div class="card-body flex-grow-1">
-                            <h4>Sewa Transportasi</h4>
-                            <p>Transportasi aman dari kota ke basecamp gunung, termasuk mobil dan jeep.</p>
-                            <a href="#contact" class="btn btn-custom mt-auto">Lihat Info Paket</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4 d-flex">
-                    <div class="service-card">
-                        <i class="bi bi-car-front service-icon"></i>
-                        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Paket Camping" class="service-img">
-                        <div class="card-body flex-grow-1">
-                            <h4>Paket Camping 1 Malam</h4>
-                            <p>Paket lengkap camping dengan tenda, makanan, dan panduan di bawah bintang.</p>
-                            <a href="#contact" class="btn btn-custom mt-auto">Lihat Info Paket</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4 d-flex">
-                    <div class="service-card">
-                        <i class="bi bi-car-front service-icon"></i>
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Paket Hiking" class="service-img">
-                        <div class="card-body flex-grow-1">
-                            <h4>Paket Hiking</h4>
-                            <p>Paket hiking penuh dengan peralatan, makan, dan pengalaman mendaki yang seru.</p>
-                            <a href="hiking.html" class="btn btn-custom mt-auto">Lihat Info Paket</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="grid grid-cols-2 @[640px]:grid-cols-3 gap-4 @[480px]:gap-6">
+<div class="product-card flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-card-dark transition-all hover:scale-[1.02]">
+<div class="aspect-square w-full relative overflow-hidden">
+<img alt="Tracking Pole" class="w-full h-full object-cover" src="https://papandayantrip.com/"/>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div>
+<h4 class="text-white font-bold text-sm @[480px]:text-base">Trekking Pole Anti-Shock</h4>
+<p class="text-accent text-xs font-bold mt-1">Rp 10.000/hari</p>
+</div>
+<button class="w-full bg-white/10 hover:bg-accent hover:text-primary transition-colors text-white py-2 rounded-lg text-xs font-black uppercase tracking-wider">
+                                Pilih Alat
+                            </button>
+</div>
+</div>
+<div class="product-card flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-card-dark transition-all hover:scale-[1.02]">
+<div class="aspect-square w-full relative overflow-hidden">
+<img alt="Hydropack" class="w-full h-full object-cover" src="TrekOut.png"/>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div>
+<h4 class="text-white font-bold text-sm @[480px]:text-base">Hydropack 2L Premium</h4>
+<p class="text-accent text-xs font-bold mt-1">Rp 20.000/hari</p>
+</div>
+<button class="w-full bg-white/10 hover:bg-accent hover:text-primary transition-colors text-white py-2 rounded-lg text-xs font-black uppercase tracking-wider">
+                                Pilih Alat
+                            </button>
+</div>
+</div>
+<div class="product-card flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-card-dark transition-all hover:scale-[1.02]">
+<div class="aspect-square w-full relative overflow-hidden">
+<img alt="Cooking Set" class="w-full h-full object-cover" src="TrekOut.png"/>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div>
+<h4 class="text-white font-bold text-sm @[480px]:text-base">Cooking Set Nesting</h4>
+<p class="text-accent text-xs font-bold mt-1">Rp 15.000/hari</p>
+</div>
+<button class="w-full bg-white/10 hover:bg-accent hover:text-primary transition-colors text-white py-2 rounded-lg text-xs font-black uppercase tracking-wider">
+                                Pilih Alat
+                            </button>
+</div>
+</div>
+<div class="product-card flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-card-dark transition-all hover:scale-[1.02]">
+<div class="aspect-square w-full relative overflow-hidden">
+<img alt="Matras" class="w-full h-full object-cover" src="TrekOut.png"/>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div>
+<h4 class="text-white font-bold text-sm @[480px]:text-base">Matras Aluminium</h4>
+<p class="text-accent text-xs font-bold mt-1">Rp 5.000/hari</p>
+</div>
+<button class="w-full bg-white/10 hover:bg-accent hover:text-primary transition-colors text-white py-2 rounded-lg text-xs font-black uppercase tracking-wider">
+                                Pilih Alat
+                            </button>
+</div>
+</div>
+<div class="product-card flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-card-dark transition-all hover:scale-[1.02]">
+<div class="aspect-square w-full relative overflow-hidden">
+<img alt="Headlamp" class="w-full h-full object-cover" src="TrekOut.png"/>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div>
+<h4 class="text-white font-bold text-sm @[480px]:text-base">Headlamp LED 300 Lumens</h4>
+<p class="text-accent text-xs font-bold mt-1">Rp 12.000/hari</p>
+</div>
+<button class="w-full bg-white/10 hover:bg-accent hover:text-primary transition-colors text-white py-2 rounded-lg text-xs font-black uppercase tracking-wider">
+                                Pilih Alat
+                            </button>
+</div>
+</div>
+<div class="product-card flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-card-dark transition-all hover:scale-[1.02]">
+<div class="aspect-square w-full relative overflow-hidden">
+<img alt="Tracking Pole" class="w-full h-full object-cover" src="TrekOut.png"/>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div>
+<h4 class="text-white font-bold text-sm @[480px]:text-base">Trekking Pole Anti-Shock</h4>
+<p class="text-accent text-xs font-bold mt-1">Rp 10.000/hari</p>
+</div>
+<button class="w-full bg-white/10 hover:bg-accent hover:text-primary transition-colors text-white py-2 rounded-lg text-xs font-black uppercase tracking-wider">
+                                Pilih Alat
+                            </button>
+</div>
+</div>
+<div class="product-card flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-card-dark transition-all hover:scale-[1.02]">
+<div class="aspect-square w-full relative overflow-hidden">
+<img alt="Tracking Pole" class="w-full h-full object-cover" src="TrekOut.png"/>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div>
+<h4 class="text-white font-bold text-sm @[480px]:text-base">Trekking Pole Anti-Shock</h4>
+<p class="text-accent text-xs font-bold mt-1">Rp 10.000/hari</p>
+</div>
+<button class="w-full bg-white/10 hover:bg-accent hover:text-primary transition-colors text-white py-2 rounded-lg text-xs font-black uppercase tracking-wider">
+                                Pilih Alat
+                            </button>
+</div>
+</div>
+<div class="product-card flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-card-dark transition-all hover:scale-[1.02]">
+<div class="aspect-square w-full relative overflow-hidden">
+<img alt="Tracking Pole" class="w-full h-full object-cover" src="TrekOut.png"/>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div>
+<h4 class="text-white font-bold text-sm @[480px]:text-base">Trekking Pole Anti-Shock</h4>
+<p class="text-accent text-xs font-bold mt-1">Rp 10.000/hari</p>
+</div>
+<button class="w-full bg-white/10 hover:bg-accent hover:text-primary transition-colors text-white py-2 rounded-lg text-xs font-black uppercase tracking-wider">
+                                Pilih Alat
+                            </button>
+</div>
+</div>
+<div class="product-card flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-card-dark transition-all hover:scale-[1.02]">
+<div class="aspect-square w-full relative overflow-hidden">
+<img alt="Tracking Pole" class="w-full h-full object-cover" src="TrekOut.png"/>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div>
+<h4 class="text-white font-bold text-sm @[480px]:text-base">Trekking Pole Anti-Shock</h4>
+<p class="text-accent text-xs font-bold mt-1">Rp 10.000/hari</p>
+</div>
+<button class="w-full bg-white/10 hover:bg-accent hover:text-primary transition-colors text-white py-2 rounded-lg text-xs font-black uppercase tracking-wider">
+                                Pilih Alat
+                            </button>
+</div>
+</div>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Tentang Kami" class="img-fluid rounded shadow">
-                </div>
-                <div class="col-md-6">
-                    <h2>Tentang Kami</h2>
-                    <p>Halo, saya adalah pemilik Papandayan Tour. Dengan pengalaman lebih dari 10 tahun sebagai tour guide di Gunung Papandayan, saya berkomitmen untuk memberikan pengalaman mendaki yang aman, edukatif, dan menyenangkan. Kami percaya bahwa alam adalah guru terbaik, dan kami ingin berbagi keindahannya dengan Anda.</p>
-                    <p>Kami fokus pada keberlanjutan dan keselamatan, menggunakan panduan lokal yang ahli dan peralatan terbaik.</p>
-                    <div class="quote">"Alam bukanlah sesuatu yang kita lihat, melainkan sesuatu yang kita rasakan." - Helen Keller</div>
-                </div>
-            </div>
-        </div>
-    </section>
+</section>
+<section class="py-20 bg-white/5 border-y border-white/10 @container">
+<div class="max-w-7xl mx-auto flex flex-col gap-10">
+<div class="px-4 flex flex-col gap-4 text-center items-center">
+<div class="inline-flex items-center gap-2 bg-accent/10 text-accent px-3 py-1 rounded-full text-xs font-bold border border-accent/20 uppercase tracking-widest">
+<span class="material-symbols-outlined !text-[16px]">stars</span>
+<span>Rating &amp; Ulasan</span>
+</div>
+<h2 class="text-white tracking-tight text-3xl font-bold leading-tight font-elegant @[480px]:text-4xl">
+                        Apa Kata Petualang?
+                    </h2>
+<div class="flex items-center gap-2">
+<div class="flex text-accent">
+<span class="material-symbols-outlined !text-[20px] fill-[1]">star</span>
+<span class="material-symbols-outlined !text-[20px] fill-[1]">star</span>
+<span class="material-symbols-outlined !text-[20px] fill-[1]">star</span>
+<span class="material-symbols-outlined !text-[20px] fill-[1]">star</span>
+<span class="material-symbols-outlined !text-[20px] fill-[0.5]">star_half</span>
+</div>
+<span class="text-white font-bold text-lg">4.9/5</span>
+<span class="text-slate-400 text-sm">(120+ Ulasan)</span>
+</div>
+</div>
+<div class="relative w-full">
+<div class="flex overflow-x-auto no-scrollbar snap-x snap-mandatory gap-4 px-4 pb-4">
+<div class="flex-none w-[85%] @[480px]:w-[320px] snap-center">
+<div class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-card-dark p-6 h-full shadow-sm hover:border-accent/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-accent/20 text-accent flex items-center justify-center font-bold text-sm border border-accent/30 flex-shrink-0">
+                                        TF
+                                    </div>
+<div>
+<h4 class="text-white text-sm font-bold">Tedi Firdaus</h4>
+<div class="flex text-accent scale-75 origin-left -mt-1">
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+</div>
+</div>
+</div>
+<p class="text-slate-300 text-sm leading-relaxed italic">
+                                    "Alatnya sangat bersih and adminnya ramah banget! Sangat membantu buat yang pertama kali sewa alat di sini."
+                                </p>
+</div>
+</div>
+<div class="flex-none w-[85%] @[480px]:w-[320px] snap-center">
+<div class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-card-dark p-6 h-full shadow-sm hover:border-accent/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-accent/20 text-accent flex items-center justify-center font-bold text-sm border border-accent/30 flex-shrink-0">
+                                        TF
+                                    </div>
+<div>
+<h4 class="text-white text-sm font-bold">Tedi Firdaus</h4>
+<div class="flex text-accent scale-75 origin-left -mt-1">
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+</div>
+</div>
+</div>
+<p class="text-slate-300 text-sm leading-relaxed italic">
+                                    "Alatnya sangat bersih and adminnya ramah banget! Sangat membantu buat yang pertama kali sewa alat di sini."
+                                </p>
+</div>
+</div>
 
-    <!-- Reviews Section -->
-    <section id="reviews" class="reviews">
-        <div class="container">
-            <h2 class="text-center mb-5">Ulasan Pelanggan</h2>
-            <div id="reviewsCarousel" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="card p-4 shadow">
-                            <p>"Pengalaman luar biasa! Tour guide sangat profesional dan rute aman." - Andi, Jakarta</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="card p-4 shadow">
-                            <p>"Paket camping 1 malam sangat worth it. Pemandangan indah dan makanan enak." - Siti, Bandung</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="card p-4 shadow">
-                            <p>"Hiking dengan guide ahli membuat perjalanan lebih menyenangkan. Recommended!" - Budi, Surabaya</p>
-                        </div>
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-            <h3 class="text-center mt-5">Berikan Ulasan Anda</h3>
-            <form class="mt-4">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Nama</label>
-                    <input type="text" class="form-control" id="name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="review" class="form-label">Ulasan</label>
-                    <textarea class="form-control" id="review" rows="3" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-custom">Kirim Ulasan</button>
-            </form>
-        </div>
-    </section>
+<div class="flex-none w-[85%] @[480px]:w-[320px] snap-center">
+<div class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-card-dark p-6 h-full shadow-sm hover:border-accent/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-accent/20 text-accent flex items-center justify-center font-bold text-sm border border-accent/30 flex-shrink-0">
+                                        TF
+                                    </div>
+<div>
+<h4 class="text-white text-sm font-bold">Tedi Firdaus</h4>
+<div class="flex text-accent scale-75 origin-left -mt-1">
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+</div>
+</div>
+</div>
+<p class="text-slate-300 text-sm leading-relaxed italic">
+                                    "Alatnya sangat bersih and adminnya ramah banget! Sangat membantu buat yang pertama kali sewa alat di sini."
+                                </p>
+</div>
+</div>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="text-center mb-5">Hubungi Kami</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <h4>Informasi Kontak</h4>
-                    <p><strong>Alamat:</strong> Basecamp Gunung Papandayan, Garut, Jawa Barat</p>
-                    <p><strong>Telepon:</strong> +62 812-3456-7890</p>
-                    <p><strong>Email:</strong> info@papandayanTour.com</p>
-                    <p><strong>Jam Operasional:</strong> 06:00 - 18:00 WIB</p>
-                </div>
-                <div class="col-md-6">
-                    <form>
-                        <div class="mb-3">
-                            <label for="contactName" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="contactName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="contactEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="contactEmail" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="contactMessage" class="form-label">Pesan</label>
-                            <textarea class="form-control" id="contactMessage" rows="4" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-custom">Kirim Pesan</button>
-                    </form>
-                </div>
-            </div>
-            <!-- Media Sosial -->
-            <div class="row mt-5">
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="contact-card">
-                        <i class="bi bi-envelope"></i>
-                        <h5>Email</h5>
-                        <a href="mailto:info@papandayantours.com">info@papandayantours.com</a>
-                    </div>
-                </div>
+<div class="flex-none w-[85%] @[480px]:w-[320px] snap-center">
+<div class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-card-dark p-6 h-full shadow-sm hover:border-accent/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-accent/20 text-accent flex items-center justify-center font-bold text-sm border border-accent/30 flex-shrink-0">
+                                        TF
+                                    </div>
+<div>
+<h4 class="text-white text-sm font-bold">Tedi Firdaus</h4>
+<div class="flex text-accent scale-75 origin-left -mt-1">
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+</div>
+</div>
+</div>
+<p class="text-slate-300 text-sm leading-relaxed italic">
+                                    "Alatnya sangat bersih and adminnya ramah banget! Sangat membantu buat yang pertama kali sewa alat di sini."
+                                </p>
+</div>
+</div>
+
+
+<div class="flex-none w-[85%] @[480px]:w-[320px] snap-center">
+<div class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-card-dark p-6 h-full shadow-sm hover:border-accent/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-accent/20 text-accent flex items-center justify-center font-bold text-sm border border-accent/30 flex-shrink-0">
+                                        TF
+                                    </div>
+<div>
+<h4 class="text-white text-sm font-bold">Tedi</h4>
+<div class="flex text-accent scale-75 origin-left -mt-1">
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+<span class="material-symbols-outlined fill-[1]">star</span>
+</div>
+</div>
+</div>
+<p class="text-slate-300 text-sm leading-relaxed italic">
+                                    "Tenda premium, sangat membantu pendakian saya di Papandayan. Gak bocor pas hujan badai semalem."
+                                </p>
+</div>
+</div>
+</div>
+<div class="flex justify-center gap-2 mt-4">
+<div class="w-6 h-1 rounded-full bg-accent"></div>
+<div class="w-1.5 h-1 rounded-full bg-white/20"></div>
+<div class="w-1.5 h-1 rounded-full bg-white/20"></div>
+</div>
+</div>
+</div>
+</section>
+<footer class="bg-background-dark border-t border-white/10 px-5 py-12 text-center @container">
+<div class="max-w-7xl mx-auto flex flex-col gap-10">
+<div class="flex items-center gap-2 justify-center">
+<div class="bg-accent/20 p-1.5 rounded-lg flex items-center justify-center text-accent">
+<span class="logo"><img src="TrekOut.png" alt=""></span>
+</div>
+<span class="text-white text-xl font-bold font-elegant italic">Trekout Papandayan</span>
+</div>
+<div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+<a class="text-slate-400 text-sm font-medium hover:text-accent transition-colors" href="#">Katalog</a>
+<a class="text-slate-400 text-sm font-medium hover:text-accent transition-colors" href="#">Kebijakan Sewa</a>
+<a class="text-slate-400 text-sm font-medium hover:text-accent transition-colors" href="#">Lokasi</a>
+<a class="text-slate-400 text-sm font-medium hover:text-accent transition-colors" href="#">Bantuan</a>
+</div>
+<div class="flex justify-center gap-6">
+<a class="text-slate-500 hover:text-accent transition-colors" href="#">
+<span class="material-symbols-outlined">public</span>
+</a>
+<a class="text-slate-500 hover:text-accent transition-colors" href="#">
+<span class="material-symbols-outlined">share</span>
+</a>
+<a class="text-slate-500 hover:text-accent transition-colors" href="#">
+<span class="material-symbols-outlined">forum</span>
+</a>
+</div>
+<div class="border-t border-white/10 pt-8">
+<p class="text-slate-500 text-sm font-normal">
+                        © 2024 Trekout Papandayan. Menyediakan kenyamanan di tengah alam liar.
+                    </p>
+</div>
+</div>
+</footer>
+</main>
+</div>
+
+</div>
+</div>
+
+</body></html>
